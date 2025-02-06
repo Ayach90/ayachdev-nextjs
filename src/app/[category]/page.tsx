@@ -4,9 +4,7 @@ import { apiRequest } from "@/lib/utils";
 import React from "react";
 
 interface CategoryPageProps {
-  params: {
-    category: string;
-  };
+  category: string;
 }
 
 export const revalidate = 60;
@@ -40,7 +38,11 @@ export async function generateStaticParams() {
   return pages;
 }
 
-export default async function Page({ params }: CategoryPageProps) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<CategoryPageProps>;
+}) {
   const { category } = await params;
   const { name, description } = await getCategoryBySlug(category);
   const posts = await getPostsByCategory(category);
