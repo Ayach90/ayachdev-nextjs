@@ -11,21 +11,21 @@ interface CategoryPageProps {
 
 export const revalidate = 60;
 
-export const getCategories = async () => {
+const getCategories = async () => {
   const categories = await apiRequest<StrapiResponse<Category>>(
     `${process.env.STRAPI_URL}/categories`
   );
   return categories.data;
 };
 
-export const getCategoryBySlug = async (slug: string) => {
+const getCategoryBySlug = async (slug: string) => {
   const category = await apiRequest<StrapiResponse<Category>>(
     `${process.env.STRAPI_URL}/categories?filters[slug][$eq]=${slug}`
   );
   return category.data[0];
 };
 
-export const getPostsByCategory = async (slug: string) => {
+const getPostsByCategory = async (slug: string) => {
   const posts = await apiRequest<StrapiResponse<Post>>(
     `${process.env.STRAPI_URL}/posts${STRAPI_POPULATE}&filters[categories][slug][$eq]=${slug}`
   );
