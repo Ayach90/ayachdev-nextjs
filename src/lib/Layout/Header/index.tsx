@@ -3,21 +3,21 @@ import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Category } from "@/lib/types";
+import { MenuItem } from "@/lib/types";
 import Link from "next/link";
 
-type Props = { categories: Category[] };
+type Props = { menu: MenuItem[] };
 
-const Header = ({ categories }: Props) => {
+const Header = ({ menu }: Props) => {
   return (
     <header>
       <NavigationMenu aria-label="Menú de navegación">
         <ul className="relative z-10 flex max-w-max flex-1 items-center justify-center gap-2">
-          {categories.map(({ id, slug, name }) => (
-            <li key={id}>
-              <Link href={slug} passHref legacyBehavior>
+          {menu.map(({ ID, url, title }) => (
+            <li key={ID}>
+              <Link href={url} passHref legacyBehavior>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  {name}
+                  {title}
                 </NavigationMenuLink>
               </Link>
             </li>

@@ -5,20 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export async function apiRequest<T>(
-  url: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const token = process.env.STRAPI_TOKEN;
-
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-    ...options.headers,
-  };
-
-  const response = await fetch(url, { ...options, headers });
-
+export async function apiRequest<T>(url: string): Promise<T> {
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }

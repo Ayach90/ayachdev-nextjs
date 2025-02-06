@@ -1,5 +1,4 @@
-import { STRAPI_POPULATE } from "@/lib/constants";
-import { Category, Post, StrapiResponse } from "@/lib/types";
+import { CategoriesResponse, Category, PostsResponse } from "@/lib/types";
 import { apiRequest } from "@/lib/utils";
 import React from "react";
 
@@ -10,24 +9,24 @@ interface CategoryPageProps {
 export const revalidate = 60;
 
 const getCategories = async () => {
-  const categories = await apiRequest<StrapiResponse<Category>>(
-    `${process.env.STRAPI_URL}/categories`
+  const categories = await apiRequest<CategoriesResponse>(
+    `${process.env.WP_URL}/categories`
   );
-  return categories.data;
+  return categories;
 };
 
 const getCategoryBySlug = async (slug: string) => {
-  const category = await apiRequest<StrapiResponse<Category>>(
-    `${process.env.STRAPI_URL}/categories?filters[slug][$eq]=${slug}`
+  const category = await apiRequest<Category[]>(
+    `${process.env.WP_URL}/categories?slug=${slug}`
   );
-  return category.data[0];
+  return category[0];
 };
 
-const getPostsByCategory = async (slug: string) => {
-  const posts = await apiRequest<StrapiResponse<Post>>(
-    `${process.env.STRAPI_URL}/posts${STRAPI_POPULATE}&filters[categories][slug][$eq]=${slug}`
+const getPostsByCategory = async (id: number) => {
+  const posts = await apiRequest<PostsResponse>(
+    `${process.env.WP_URL}/posts?categories=${id}`
   );
-  return posts.data;
+  return posts;
 };
 
 export async function generateStaticParams() {
@@ -44,8 +43,8 @@ export default async function Page({
   params: Promise<CategoryPageProps>;
 }) {
   const { category } = await params;
-  const { name, description } = await getCategoryBySlug(category);
-  const posts = await getPostsByCategory(category);
+  const { name, description, id } = await getCategoryBySlug(category);
+  const posts = await getPostsByCategory(id);
   return (
     <>
       <h1>{name}</h1>
@@ -55,13 +54,12 @@ export default async function Page({
           Listado de posts
         </h2>
         <ul>
-          {posts.map(({ id, title, subtitle }) => (
+          {posts.map(({ id, title }) => (
             <li key={id}>
               <article>
                 <header>
-                  <h2>{title}</h2>
+                  <h2>{title.rendered}</h2>
                 </header>
-                <p>{subtitle}</p>
               </article>
             </li>
           ))}

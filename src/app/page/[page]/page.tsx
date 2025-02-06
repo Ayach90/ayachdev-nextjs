@@ -1,6 +1,6 @@
-import { POSTS_PER_PAGE, STRAPI_POPULATE } from "@/lib/constants";
+import { POSTS_PER_PAGE } from "@/lib/constants";
 import Paginated from "@/lib/pages/Paginated";
-import { Post, StrapiResponse } from "@/lib/types";
+import { Post } from "@/lib/types";
 import { apiRequest } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -12,17 +12,20 @@ interface PaginatedPageProps {
 export const revalidate = 60;
 
 async function getTotalPages(): Promise<number> {
-  const posts = await apiRequest<StrapiResponse<Post>>(
-    `${process.env.STRAPI_URL}/posts?pagination[page]=1&pagination[pageSize]=${POSTS_PER_PAGE}`
-  );
-  return posts.meta.pagination.pageCount;
+  try {
+    const posts = await fetch(`${process.env.WP_URL}/posts`);
+    const totalPosts = Number(posts.headers.get("X-WP-Total"));
+    return Math.ceil(totalPosts / POSTS_PER_PAGE);
+  } catch (e) {
+    throw new Error(`Error: ${e}`);
+  }
 }
 
 async function getPostsByPage(page: number, limit: number): Promise<Post[]> {
-  const posts = await apiRequest<StrapiResponse<Post>>(
-    `${process.env.STRAPI_URL}/posts${STRAPI_POPULATE}&pagination[page]=${page}&pagination[pageSize]=${limit}`
+  const posts = await apiRequest<Post[]>(
+    `${process.env.WP_URL}/posts?per_page=${limit}&offset=${(page - 1) * limit}`
   );
-  return posts.data;
+  return posts;
 }
 
 export async function generateStaticParams() {

@@ -11,7 +11,7 @@ const Home = ({ posts }: Props) => {
       <h1>HOME</h1>
       <section>
         {posts.map((post) => (
-          <article key={post.id}>{post.title}</article>
+          <article key={post.id}>{post.title.rendered}</article>
         ))}
       </section>
     </>

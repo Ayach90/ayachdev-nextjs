@@ -3,21 +3,21 @@ import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { FooterItem } from "@/lib/types";
+import { MenuItem } from "@/lib/types";
 import Link from "next/link";
 
-type Props = { menuItems: FooterItem[] };
+type Props = { menu: MenuItem[] };
 
-const Footer = ({ menuItems }: Props) => {
+const Footer = ({ menu }: Props) => {
   return (
     <footer>
       <NavigationMenu aria-label="Menú de pie de página">
         <ul className="relative z-10 flex max-w-max flex-1 items-center justify-center gap-2">
-          {menuItems.map(({ id, slug, name }) => (
-            <li key={id}>
-              <Link href={slug} passHref legacyBehavior>
+          {menu.map(({ ID, url, title }) => (
+            <li key={ID}>
+              <Link href={url} passHref legacyBehavior>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  {name}
+                  {title}
                 </NavigationMenuLink>
               </Link>
             </li>
