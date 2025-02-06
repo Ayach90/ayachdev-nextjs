@@ -1,9 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { RequestHeaders } from "next/dist/client/components/router-reducer/fetch-server-response";
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export async function apiRequest<T>(
@@ -13,8 +12,8 @@ export async function apiRequest<T>(
   const token = process.env.STRAPI_TOKEN;
 
   const headers = {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
     ...options.headers,
   };
 

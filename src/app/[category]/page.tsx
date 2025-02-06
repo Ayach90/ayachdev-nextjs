@@ -53,7 +53,7 @@ export default async function Page({ params }: CategoryPageProps) {
           Listado de posts
         </h2>
         <ul>
-          {posts.map(({ id, title, subtitle, slug }) => (
+          {posts.map(({ id, title, subtitle }) => (
             <li key={id}>
               <article>
                 <header>
