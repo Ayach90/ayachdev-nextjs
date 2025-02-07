@@ -15,7 +15,7 @@ export const Home = ({ posts, categories }: Props) => {
         className={`flex ${style.heroBanner} py-48 px-4 justify-center items-center`}
       >
         <h1 className="text-white">
-          <i>console.log(</i> "Hola dev" <i>)</i>
+          {`<i>console.log(</i> &quot;Hola dev&quot; <i>)</i>`}
         </h1>
       </section>
       <section className="px-4 pt-24 flex flex-col items-center">

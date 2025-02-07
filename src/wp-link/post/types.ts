@@ -34,7 +34,6 @@ export interface PostFilters {
 
 export interface Post {
   _links: WPLinks;
-  acf: any[];
   categories: number[];
   class_list: string[];
   comment_status: string;
@@ -103,7 +102,6 @@ interface YoastHeadJson {
     "max-image-preview": string;
     "max-video-preview": string;
   };
-  schema: any;
   title: string;
   twitter_card: string;
   twitter_misc: {
