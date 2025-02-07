@@ -4,6 +4,7 @@ import { apiRequest } from "@/lib/utils";
 import type { Metadata } from "next";
 import "./globals.css";
 import { MenusResponse } from "@/lib/types";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,6 +31,7 @@ export default async function RootLayout({
         <Header menu={primary} />
         <main>{children}</main>
         <Footer menu={footer} />
+        <GoogleAnalytics gaId="G-T7GJF4K2B9" />
       </body>
     </html>
   );
