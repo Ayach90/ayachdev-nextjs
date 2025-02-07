@@ -1,10 +1,8 @@
-import Footer from "@/lib/Layout/Footer";
-import Header from "@/lib/Layout/Header";
-import { apiRequest } from "@/lib/utils";
 import type { Metadata } from "next";
-import "./globals.css";
-import { MenusResponse } from "@/lib/types";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { getMenus } from "@/wp-link";
+import "./globals.css";
+import { Header, Main, Footer } from "@/lib/layout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,25 +11,20 @@ export const metadata: Metadata = {
 
 export const revalidate = 86400;
 
-async function getMenus(): Promise<MenusResponse> {
-  const menus = await apiRequest<MenusResponse>(`${process.env.WP_URL}/menus`);
-  return menus;
-}
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { primary, footer } = await getMenus();
+  const { primary, footer } = await getMenus(process.env.WP_API_URL);
 
   return (
     <html lang="es">
+      <GoogleAnalytics gaId="G-T7GJF4K2B9" />
       <body>
         <Header menu={primary} />
-        <main>{children}</main>
+        <Main>{children}</Main>
         <Footer menu={footer} />
-        <GoogleAnalytics gaId="G-T7GJF4K2B9" />
       </body>
     </html>
   );

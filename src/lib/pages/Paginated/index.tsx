@@ -1,12 +1,11 @@
-import { Post } from "@/lib/types";
-import React from "react";
+import { Post } from "@/wp-link";
 
 type Props = {
   currentPage: number;
   posts: Post[];
 };
 
-const Paginated = ({ currentPage, posts }: Props) => {
+export const Paginated = ({ currentPage, posts }: Props) => {
   return (
     <main>
       <h1>Página {currentPage}</h1>
@@ -18,5 +17,3 @@ const Paginated = ({ currentPage, posts }: Props) => {
     </main>
   );
 };
-
-export default Paginated;

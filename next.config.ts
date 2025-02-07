@@ -4,4 +4,15 @@ const nextConfig: NextConfig = {
   /* config options here */
 };
 
+module.exports = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.ayach.dev",
+      },
+    ],
+  },
+};
+
 export default nextConfig;

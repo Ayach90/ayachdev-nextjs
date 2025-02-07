@@ -1,6 +1,6 @@
 //MENUS
 
-export interface MenuItem {
+export interface Menu {
   ID: number;
   post_author: string;
   post_date: string;
@@ -41,6 +41,5 @@ export interface MenuItem {
 }
 
 export interface MenusResponse {
-  primary: MenuItem[];
-  footer: MenuItem[];
+  [key: string]: Menu[];
 }

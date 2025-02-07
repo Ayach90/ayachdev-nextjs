@@ -1,11 +1,16 @@
-import Home from "@/lib/pages/Home";
-import { Post } from "@/lib/types";
-import { apiRequest } from "@/lib/utils";
+import { Home } from "@/lib/pages";
+import { getCategories, getPosts } from "@/wp-link";
 
+const NUM_POSTS = 5;
 export const revalidate = 86400;
 
 export default async function Page() {
-  const posts = await apiRequest<Post[]>(`${process.env.WP_URL}/posts`);
+  const posts = await getPosts(process.env.WP_API_URL, {
+    per_page: NUM_POSTS,
+    orderby: "date",
+    order: "desc",
+  });
+  const categories = await getCategories(process.env.WP_API_URL);
 
-  return <Home posts={posts} />;
+  return <Home posts={posts} categories={categories} />;
 }

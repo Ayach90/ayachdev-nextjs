@@ -1,6 +1,4 @@
-import { CategoriesResponse, Category, PostsResponse } from "@/lib/types";
-import { apiRequest } from "@/lib/utils";
-import React from "react";
+import { getCategories, getPosts, PostFilters } from "@/wp-link";
 
 interface CategoryPageProps {
   category: string;
@@ -8,29 +6,8 @@ interface CategoryPageProps {
 
 export const revalidate = 86400;
 
-const getCategories = async () => {
-  const categories = await apiRequest<CategoriesResponse>(
-    `${process.env.WP_URL}/categories`
-  );
-  return categories;
-};
-
-const getCategoryBySlug = async (slug: string) => {
-  const category = await apiRequest<Category[]>(
-    `${process.env.WP_URL}/categories?slug=${slug}`
-  );
-  return category[0];
-};
-
-const getPostsByCategory = async (id: number) => {
-  const posts = await apiRequest<PostsResponse>(
-    `${process.env.WP_URL}/posts?categories=${id}`
-  );
-  return posts;
-};
-
 export async function generateStaticParams() {
-  const categories = await getCategories();
+  const categories = await getCategories(process.env.WP_API_URL);
   const pages = categories.map(({ slug }) => ({
     category: slug,
   }));
@@ -43,12 +20,18 @@ export default async function Page({
   params: Promise<CategoryPageProps>;
 }) {
   const { category } = await params;
-  const { name, description, id } = await getCategoryBySlug(category);
-  const posts = await getPostsByCategory(id);
+  const categories = await getCategories(process.env.WP_API_URL, {
+    slug: category,
+  });
+  const { id, name, description } = categories[0];
+
+  const postFilters: PostFilters = { categories: [id] };
+  const posts = await getPosts(process.env.WP_API_URL, postFilters);
+
   return (
-    <>
-      <h1>{name}</h1>
-      <p>{description}</p>
+    <section className="p-4">
+      <h1 className="text-center">{name}</h1>
+      <p className="text-center px-60">{description}</p>
       <section aria-labelledby="posts-heading">
         <h2 id="posts-heading" className="visually-hidden ">
           Listado de posts
@@ -65,6 +48,6 @@ export default async function Page({
           ))}
         </ul>
       </section>
-    </>
+    </section>
   );
 }
