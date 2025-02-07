@@ -1,5 +1,5 @@
 import { Home } from "@/lib/pages";
-import { getCategories, getPosts } from "@/wp-link";
+import { getCategories, getPosts } from "wpjs-api";
 
 const NUM_POSTS = 5;
 export const revalidate = 86400;

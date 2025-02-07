@@ -1,4 +1,4 @@
-import { getCategories, getPosts, PostFilters } from "@/wp-link";
+import { getCategories, getPosts, PostFilters } from "wpjs-api";
 
 interface CategoryPageProps {
   category: string;

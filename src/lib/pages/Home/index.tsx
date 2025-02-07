@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Category, Post } from "@/wp-link";
 import style from "./style.module.css";
+import { Post, Category } from "wpjs-api";
 
 interface Props {
   posts: Post[];

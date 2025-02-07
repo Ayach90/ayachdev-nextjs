@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { getPosts, getTotalPages, PostFilters } from "@/wp-link";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import { Paginated } from "@/lib/pages";
+import { getPosts, getTotalPages, PostFilters } from "wpjs-api";
 
 interface PaginatedPageProps {
   page: string;
@@ -10,7 +10,10 @@ interface PaginatedPageProps {
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-  const totalPages = await getTotalPages(POSTS_PER_PAGE);
+  const totalPages = await getTotalPages(
+    `${process.env.WP_API_URL}`,
+    POSTS_PER_PAGE
+  );
   const pages = Array.from({ length: totalPages - 1 }, (_, i) => ({
     page: (i + 2).toString(),
   }));

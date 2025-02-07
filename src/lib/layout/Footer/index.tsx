@@ -1,13 +1,13 @@
+import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { MenuItem } from "@/lib/types";
-import Link from "next/link";
 import styles from "./style.module.css";
+import { Menu } from "wpjs-api";
 
-type Props = { menu: MenuItem[] };
+type Props = { menu: Menu[] };
 
 export const Footer = ({ menu }: Props) => {
   return (

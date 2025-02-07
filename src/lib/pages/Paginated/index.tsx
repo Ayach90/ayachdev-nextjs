@@ -1,4 +1,4 @@
-import { Post } from "@/wp-link";
+import { Post } from "wpjs-api";
 
 type Props = {
   currentPage: number;

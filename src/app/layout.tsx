@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { getMenus } from "@/wp-link";
+import { getMenus } from "wpjs-api";
 import "./globals.css";
 import { Header, Main, Footer } from "@/lib/layout";
+import { G_ANALYTICS_ID } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +21,7 @@ export default async function RootLayout({
 
   return (
     <html lang="es">
-      <GoogleAnalytics gaId="G-T7GJF4K2B9" />
+      <GoogleAnalytics gaId={G_ANALYTICS_ID} />
       <body>
         <Header menu={primary} />
         <Main>{children}</Main>

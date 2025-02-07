@@ -1,13 +1,13 @@
+import Link from "next/link";
+import Image from "next/image";
 import {
   NavigationMenu,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { MenuItem } from "@/lib/types";
-import Image from "next/image";
-import Link from "next/link";
+import { Menu } from "wpjs-api";
 
-type Props = { menu: MenuItem[] };
+type Props = { menu: Menu[] };
 
 export const Header = ({ menu }: Props) => {
   return (
