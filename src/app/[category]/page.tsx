@@ -1,3 +1,4 @@
+import Category from "@/lib/pages/Category";
 import { getCategories, getPosts, PostFilters } from "wpjs-api";
 
 interface CategoryPageProps {
@@ -20,34 +21,12 @@ export default async function Page({
   params: Promise<CategoryPageProps>;
 }) {
   const { category } = await params;
-  const categories = await getCategories(process.env.WP_API_URL, {
+  const categoryData = await getCategories(process.env.WP_API_URL, {
     slug: category,
   });
-  const { id, name, description } = categories[0];
 
-  const postFilters: PostFilters = { categories: [id] };
+  const postFilters: PostFilters = { categories: [categoryData[0].id] };
   const posts = await getPosts(process.env.WP_API_URL, postFilters);
 
-  return (
-    <section className="p-4">
-      <h1 className="text-center">{name}</h1>
-      <p className="text-center px-60">{description}</p>
-      <section aria-labelledby="posts-heading">
-        <h2 id="posts-heading" className="visually-hidden ">
-          Listado de posts
-        </h2>
-        <ul>
-          {posts.map(({ id, title }) => (
-            <li key={id}>
-              <article>
-                <header>
-                  <h2>{title.rendered}</h2>
-                </header>
-              </article>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </section>
-  );
+  return <Category category={categoryData[0]} posts={posts} />;
 }

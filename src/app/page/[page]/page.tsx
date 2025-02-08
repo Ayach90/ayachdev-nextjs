@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
+import { getPosts, getTotalPages, PostFilters } from "wpjs-api";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import { Paginated } from "@/lib/pages";
-import { getPosts, getTotalPages, PostFilters } from "wpjs-api";
 
 interface PaginatedPageProps {
   page: string;
