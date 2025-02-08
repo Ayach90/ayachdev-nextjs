@@ -1,5 +1,5 @@
-import Category from "@/lib/pages/Category";
 import { getCategories, getPosts, PostFilters } from "wpjs-api";
+import Category from "@/lib/pages/Category";
 
 interface CategoryPageProps {
   category: string;
@@ -17,12 +17,13 @@ export async function generateStaticParams() {
 
 export default async function Page({
   params,
-}: {
+}: Readonly<{
   params: Promise<CategoryPageProps>;
-}) {
+}>) {
   const { category } = await params;
   const categoryData = await getCategories(process.env.WP_API_URL, {
     slug: category,
+    per_page: 10,
   });
 
   const postFilters: PostFilters = { categories: [categoryData[0].id] };

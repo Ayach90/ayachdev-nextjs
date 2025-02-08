@@ -22,13 +22,15 @@ export async function generateStaticParams() {
 
 export default async function Page({
   params,
-}: {
+}: Readonly<{
   params: Promise<PaginatedPageProps>;
-}) {
+}>) {
   const paramsData = await params;
   const currentPage = parseInt(paramsData.page, 10);
-  const postsPerPage = 5;
-  const filters: PostFilters = { per_page: postsPerPage, offset: currentPage };
+  const filters: PostFilters = {
+    per_page: POSTS_PER_PAGE,
+    offset: currentPage,
+  };
   const posts = await getPosts(process.env.WP_API_URL, filters);
 
   if ((!posts.length && currentPage !== 1) || currentPage === 1) {
