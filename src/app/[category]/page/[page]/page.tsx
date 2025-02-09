@@ -1,5 +1,5 @@
+import PostsList from "@/components/PostsList";
 import { POSTS_PER_PAGE } from "@/lib/constants";
-import { Paginated } from "@/lib/pages";
 import { notFound } from "next/navigation";
 import { getCategories, getCategoryTotalPages, getPosts } from "wpjs-api";
 
@@ -42,8 +42,7 @@ export default async function CategoryPage({
 
   return (
     <div>
-      <h1>Categoría: {category}</h1>
-      <Paginated currentPage={Number(page)} posts={posts} />
+      <PostsList name={cat[0].name} posts={posts} page={currentPage} />
     </div>
   );
 }

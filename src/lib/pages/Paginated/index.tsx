@@ -11,7 +11,7 @@ export const Paginated = ({ currentPage, posts }: Props) => {
       <h1>Página {currentPage}</h1>
       <ul>
         {posts.map((post) => (
-          <li key={post.id}>{post.title.rendered}</li>
+          <li key={post.id}></li>
         ))}
       </ul>
     </main>

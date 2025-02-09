@@ -1,5 +1,7 @@
+import { notFound } from "next/navigation";
 import { getCategories, getPosts, PostFilters } from "wpjs-api";
 import Category from "@/lib/pages/Category";
+import { POSTS_PER_PAGE } from "@/lib/constants";
 
 interface CategoryPageProps {
   category: string;
@@ -23,8 +25,11 @@ export default async function Page({
   const { category } = await params;
   const categoryData = await getCategories(process.env.WP_API_URL, {
     slug: category,
-    per_page: 10,
+    per_page: POSTS_PER_PAGE,
   });
+  if (categoryData.length === 0) {
+    notFound();
+  }
 
   const postFilters: PostFilters = { categories: [categoryData[0].id] };
   const posts = await getPosts(process.env.WP_API_URL, postFilters);
