@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPosts, getTotalPages, PostFilters } from "wpjs-api";
 import { POSTS_PER_PAGE } from "@/lib/constants";
-import { Paginated } from "@/lib/pages";
+import PostsList from "@/components/PostsList";
 
 interface PaginatedPageProps {
   page: string;
@@ -31,11 +31,16 @@ export default async function Page({
     per_page: POSTS_PER_PAGE,
     offset: currentPage,
   };
-  const posts = await getPosts(process.env.WP_API_URL, filters);
+  const posts = await getPosts(`${process.env.WP_API_URL}`, filters);
 
   if ((!posts.length && currentPage !== 1) || currentPage === 1) {
     notFound();
   }
 
-  return <Paginated posts={posts} currentPage={currentPage} />;
+  const totalPages = await getTotalPages(
+    `${process.env.WP_API_URL}`,
+    POSTS_PER_PAGE
+  );
+
+  return <PostsList posts={posts} totalPages={totalPages} />;
 }

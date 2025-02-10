@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { getMenus } from "wpjs-api";
-import "./globals.css";
 import { Header, Main, Footer } from "@/lib/layout";
 import { G_ANALYTICS_ID } from "@/lib/constants";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +17,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { primary, footer } = await getMenus(process.env.WP_API_URL);
+  const { primary, footer } = await getMenus(`${process.env.WP_API_URL}`);
 
   return (
     <html lang="es">

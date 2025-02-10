@@ -3,7 +3,7 @@
 type Props = { html: string };
 
 const RenderHtml = ({ html }: Props) => {
-  return <div dangerouslySetInnerHTML={{ __html: html }}></div>;
+  return <span dangerouslySetInnerHTML={{ __html: html }}></span>;
 };
 
 export default RenderHtml;

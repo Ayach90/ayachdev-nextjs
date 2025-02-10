@@ -1,6 +1,5 @@
-import RenderHtml from "@/components/RenderHtml/RenderHtml";
-import React from "react";
 import { Post as PostType } from "wpjs-api";
+import RenderHtml from "@/components/RenderHtml/RenderHtml";
 
 type Props = { post: PostType };
 

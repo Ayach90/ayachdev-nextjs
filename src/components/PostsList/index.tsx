@@ -1,46 +1,46 @@
 import { Boxed } from "@/lib/layout/Boxed";
-import React from "react";
 import { Post } from "wpjs-api";
 import CardLargePost from "../CardLargePost";
-import CardSmallPost from "../CardSmallPost";
+import Pagination from "./Pagination";
 
 type Props = {
-  name: string;
   description?: string;
+  name?: string;
   page?: number;
   posts: Post[];
-  cardsType?: "large" | "small";
+  slug?: string;
+  totalPages: number;
 };
 
 const PostsList = ({
-  name,
   description,
-  posts,
+  name,
   page = 1,
-  cardsType = "large",
+  posts,
+  slug,
+  totalPages,
 }: Props) => {
   return (
     <section className="p-4">
-      <h1 className="text-center">{name}</h1>
+      {name && <h1 className="text-center">{name}</h1>}
       {page === 1 && description && (
         <p className="text-center px-60">{description}</p>
       )}
       {page > 1 && `Page ${page}`}
       <Boxed className="py-24">
-        <ul>
+        <ul className="flex flex-col gap-4">
           {posts.map((post) => (
             <li key={post.id}>
               <article>
-                {cardsType === "large" ? (
-                  <CardLargePost post={post} />
-                ) : (
-                  <CardSmallPost post={post} />
-                )}
+                <CardLargePost post={post} />
               </article>
             </li>
           ))}
         </ul>
       </Boxed>
+      {totalPages > 1 && (
+        <Pagination currentPage={page} totalPages={totalPages} slug={slug} />
+      )}
     </section>
   );
 };

@@ -1,15 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { Post } from "wpjs-api";
+import { getCategories, Post } from "wpjs-api";
+import RenderHtml from "../RenderHtml/RenderHtml";
 
 type Props = { post: Post };
 
-const CardLargePost = ({ post }: Props) => {
-  const { title, excerpt, featured_image_url, featured_image_alt, slug } = post;
+const CardLargePost = async ({ post }: Props) => {
+  const { featured_image_url, featured_image_alt, slug, categories } = post;
+  const title = post.title.rendered;
+  const excerpt = post.title.rendered;
+  const category = await getCategories(`${process.env.WP_API_URL}`, {
+    include: [categories[0]],
+  });
+
   return (
     <Link
-      href={`/${slug}`}
+      href={`/${category[0].slug}/${slug}`}
       className="flex items-start w-full rounded shadow  bg-white hover:bg-gray-200"
     >
       <Image
@@ -19,8 +25,12 @@ const CardLargePost = ({ post }: Props) => {
         height={128}
       />
       <div className="p-4 w-full">
-        <h3>{title.rendered}</h3>
-        <p>{excerpt.rendered}</p>
+        <h3>
+          <RenderHtml html={title} />
+        </h3>
+        <p>
+          <RenderHtml html={excerpt} />
+        </p>
       </div>
     </Link>
   );

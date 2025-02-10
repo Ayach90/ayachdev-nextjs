@@ -1,4 +1,3 @@
-import Post from "@/lib/pages/Post";
 import { notFound } from "next/navigation";
 import {
   getCategories,
@@ -6,6 +5,7 @@ import {
   getTotalPages,
   Post as PostType,
 } from "wpjs-api";
+import Post from "@/lib/pages/Post";
 
 type PostPageProps = {
   category: string;
@@ -16,11 +16,10 @@ type PostPageProps = {
 export async function generateStaticParams() {
   const allPosts: PostType[] = [];
   const perPage = 10;
-
   const totalPages = await getTotalPages(`${process.env.WP_API_URL}`, perPage);
 
   for (let i = 1; i <= totalPages; i++) {
-    const posts = await getPosts(process.env.WP_API_URL, {
+    const posts = await getPosts(`${process.env.WP_API_URL}`, {
       per_page: perPage,
       page: i,
     });
